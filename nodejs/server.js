@@ -1,5 +1,7 @@
 import express from "express";
 import pg from "pg";
+import multer from "multer";
+const upload = multer();
 
 // Postgres connection pool
 const pool = new pg.Pool({
@@ -46,6 +48,12 @@ app.get("/sql/", (req, res) => {
         }
         res.send(results.rows.slice(0, 20));
       })
+});
+
+app.post("/file-upload/", upload.any(), (req, res) => {
+    const file = req.files[0]
+    file.buffer.toString();
+    res.send("File upload successful!");
 });
 
 
