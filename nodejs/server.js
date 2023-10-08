@@ -23,12 +23,12 @@ app.get("/string/", (req, res) =>{
 
 app.get("/simple-json/", (req, res) => {
     const someMoreComplexJson = {
-        "Hello": "World",
-        "How": "Are You",
-        "Today": "My Friend",
-        "nested": {
-            "key": "value",
-            "another_nest": {
+        "key1": "value1",
+        "key2": "value2",
+        "key3": "value3",
+        "key_nest": {
+            "kn1": "value_nest_1",
+            "knn2": {
                 "key": "value"
             }
         }
@@ -41,7 +41,7 @@ app.get("/query-params/", (req, res) => {
     res.send(query);
 });
 
-app.get("/sql/", (req, res) => {
+app.get("/sql-select/", (req, res) => {
     pool.query('SELECT * FROM public.exampletable ORDER BY id ASC', (error, results) => {
         if (error) {
           throw error

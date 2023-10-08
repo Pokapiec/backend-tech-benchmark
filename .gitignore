@@ -1,2 +1,9 @@
 node_modules/
 volumes/*
+
+# Added by cargo
+
+/target
+.mvn
+rust/target
+java-spring/target
