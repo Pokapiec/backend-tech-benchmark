@@ -2,6 +2,18 @@ Enabling docker-compose in WSL on windows:
 
 - https://docs.docker.com/desktop/wsl/
 
+Testowane jezyki programowania
+
+- [x] Node js - Express
+- [x] Java - Spring Boot
+- [ ] Rust - Actix web
+- [ ] C# - .NET Core
+- [ ] Golang - Gin
+- [ ] PHP - Laravel
+- [ ] Python - FastApi
+- [ ] Ruby - Rails (If there will be time)
+- [ ] Elixir - Phoenix (If there will be time)
+
 Endpoints to test:
 
 - /string/ - returning simple text content
