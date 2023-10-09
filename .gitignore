@@ -7,3 +7,5 @@ volumes/*
 .mvn
 rust/target
 java-spring/target
+c#-dotnet/bin
+c#-dotnet/obj
