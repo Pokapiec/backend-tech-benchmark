@@ -7,7 +7,7 @@ Testowane jezyki programowania
 - [x] Node js - Express
 - [x] Java - Spring Boot
 - [ ] Rust - Actix web
-- [ ] C# - .NET Core
+- [x] C# - .NET Core
 - [ ] Golang - Gin
 - [ ] PHP - Laravel
 - [ ] Python - FastApi
