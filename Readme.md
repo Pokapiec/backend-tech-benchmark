@@ -8,9 +8,9 @@ Testowane jezyki programowania
 - [x] Java - Spring Boot
 - [ ] Rust - Actix web
 - [x] C# - .NET Core
-- [ ] Golang - Gin
+- [x] Golang - Gin
 - [ ] PHP - Laravel
-- [ ] Python - FastApi
+- [x] Python - FastApi
 - [ ] Ruby - Rails (If there will be time)
 - [ ] Elixir - Phoenix (If there will be time)
 
