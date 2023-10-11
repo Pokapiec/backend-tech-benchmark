@@ -1,6 +1,9 @@
+use actix_multipart::Multipart;
+use actix_web::dev::Payload;
 use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder, Result};
 use serde::Serialize;
 use sqlx::postgres::{PgPool, PgPoolOptions};
+use sqlx::FromRow;
 use std::collections::HashMap;
 
 pub struct AppState {
@@ -31,18 +34,18 @@ struct Response {
     message: String,
 }
 
-#[derive(Serialize)]
+#[derive(Serialize, FromRow)]
 struct ExampleTable {
-    ID: i32,
-    FirstName: String,
-    LastName: String,
-    Age: i32,
-    Salary: f64,
-    BirthDate: String,
-    IsActive: bool,
-    Email: String,
-    PhoneNumber: String,
-    Address: String,
+    id: i32,
+    firstname: String,
+    lastname: String,
+    age: i32,
+    salary: String,
+    birthdate: String,
+    isactive: bool,
+    email: String,
+    phonenumber: String,
+    address: String,
 }
 
 #[get("/string/")]
@@ -75,44 +78,35 @@ async fn query_params_endpoint(
 
 #[get("/sql-select/")]
 async fn sql_select_endpoint(data: web::Data<AppState>) -> impl Responder {
-    let query_string = "SELECT * FROM public.exampletable ORDER BY id ASC";
-    let query = sqlx::query_as::<_, ExampleTable>(query_string)
+    let query_string = "SELECT ID,FirstName,LastName,Age,Salary::varchar,BirthDate::varchar,IsActive,Email,PhoneNumber,Address FROM public.exampletable ORDER BY id ASC";
+    let result = sqlx::query_as::<_, ExampleTable>(query_string)
         .fetch_all(&data.db)
         .await
         .unwrap();
-    // let query =
-    //     sqlx::query_as::<_, ExampleTable>("SELECT * FROM public.exampletable ORDER BY id ASC")
-    //         .fetch_all(&data.db)
-    //         .await
-    //         .unwrap();
-
-    HttpResponse::Ok().json(query)
+    HttpResponse::Ok().json(result)
 }
 
 // #[post("/file-upload/")]
-// async fn file_upload_endpoint(req: HttpRequest, payload: web::Payload) -> impl Responder {
-//     let mut data = web::BytesMut::new();
+// async fn file_upload_endpoint(payload: Multipart) -> impl Responder {
+//     let mut file_content = Bytes::new();
 
-//     while let Some(chunk) = payload.into_inner().read_to_end(&mut data).await {
-//         let chunk = chunk.unwrap();
-//         data.extend_from_slice(&chunk);
+//     while let Some(chunk) = payload.next().await {
+//         let data = chunk
+//             .map_err(|_e| actix_web::error::ErrorInternalServerError("Failed to read a chunk"))?;
+
+//         file_content.extend_from_slice(&data);
 //     }
 
-//     let uploaded_data = String::from_utf8(data.to_vec()).unwrap();
+//     // Convert the content to a string
+//     let file_content_str = String::from_utf8(file_content.to_vec())
+//         .map_err(|e| actix_web::error::ErrorBadRequest(format!("Invalid UTF-8: {}", e)))?;
 
-//     HttpResponse::Ok().body(format!("Uploaded file content:\n{}", uploaded_data))
+//     Ok(HttpResponse::Ok().body(file_content_str))
 // }
-
-async fn not_found() -> Result<HttpResponse> {
-    let response = Response {
-        message: "Resource not found".to_string(),
-    };
-    Ok(HttpResponse::NotFound().json(response))
-}
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    let database_url = "postgresql://username:password@localhost/database_name";
+    let database_url = "postgresql://postgres:postgres@localhost/postgres";
     let pool = PgPoolOptions::new()
         .max_connections(20)
         .connect(database_url)
@@ -122,9 +116,10 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(move || {
         App::new()
             .service(string_response)
+            .service(query_params_endpoint)
             .service(json_response)
+            .service(sql_select_endpoint)
             .app_data(web::Data::new(AppState { db: pool.clone() }))
-            .default_service(web::route().to(not_found))
     })
     .bind(("127.0.0.1", 8080))?
     .run()

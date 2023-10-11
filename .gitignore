@@ -5,7 +5,7 @@ volumes/*
 
 /target
 .mvn
-rust/target
+rust-actixweb/target
 java-spring/target
 c#-dotnet/bin
 c#-dotnet/obj
