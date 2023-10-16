@@ -6,11 +6,11 @@ Testowane jezyki programowania
 
 - [x] Node js - Express
 - [x] Java - Spring Boot
-- [ ] Rust - Actix web
 - [x] C# - .NET Core
 - [x] Golang - Gin
-- [ ] PHP - Laravel
+- [x] PHP - Laravel
 - [x] Python - FastApi
+- [ ] Rust - Actix web (If there will be time)
 - [ ] Ruby - Rails (If there will be time)
 - [ ] Elixir - Phoenix (If there will be time)
 
