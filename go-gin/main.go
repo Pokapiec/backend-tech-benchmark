@@ -28,7 +28,7 @@ type DBRecord struct {
 }
 
 const (
-	host     = "localhost"
+	host     = "postgres"
 	port     = 5432
 	user     = "postgres"
 	password = "postgres"
@@ -129,5 +129,5 @@ func main() {
 
 		c.String(200, string(content))
 	})
-	r.Run("localhost:8080")
+	r.Run("0.0.0.0:80")
 }

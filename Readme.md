@@ -21,3 +21,12 @@ Endpoints to test:
 - /query-params/ - endpoint that takes some query parameters and return them
 - /sql-select/ - endpoint that executes simple sql SELECT query
 - /file-upload/ - endpoint that uploads file to memory and reads it
+
+Manage app containers:
+
+```bash
+docker build -t <image-name> .
+docker run --name <image-name> -d -p 3000:80 <container-name>
+docker stop <container-name>
+docker container rm <container-name>
+```

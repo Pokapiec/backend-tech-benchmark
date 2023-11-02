@@ -1,18 +1,13 @@
-FROM golang:1.21 as builder
+FROM golang:1.21
 
 WORKDIR /app
 
 COPY . .
 
 RUN go mod download
-RUN go build -o main
+RUN CGO_ENABLED=0 GOOS=linux go build -o main
+ENV GIN_MODE=release
 
-FROM alpine:latest
-
-WORKDIR /app
-
-COPY --from=builder /app/main .
-
-EXPOSE 8080
+EXPOSE 80
 
 CMD ["./main"]

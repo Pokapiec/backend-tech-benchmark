@@ -1,14 +1,17 @@
-# Use an official .NET Core runtime as a parent image
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS dotnet
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build-env
+WORKDIR /App
 
-# Set a working directory in the container
-WORKDIR /app
+# Copy everything
+COPY . ./
+# Restore as distinct layers
+RUN dotnet restore
+# Build and publish a release
+RUN dotnet publish -c Release -o out
 
-# Copy the published .NET Core application into the container
-COPY bin/Release/net6.0/publish /app
-
-# Expose the port that your .NET Core application will listen on
-EXPOSE 80
-
-# Start the .NET Core application
-CMD ["dotnet", "YourApp.dll"]
+# Build runtime image
+FROM mcr.microsoft.com/dotnet/aspnet:7.0
+WORKDIR /App
+EXPOSE 80/tcp
+ENV ASPNETCORE_URLS=http://*:80
+COPY --from=build-env /App/out .
+ENTRYPOINT ["dotnet", "c#-dotnet.dll"]
