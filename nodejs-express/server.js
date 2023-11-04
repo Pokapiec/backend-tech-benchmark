@@ -1,19 +1,19 @@
-import express from "express";
-import pg from "pg";
-import multer from "multer";
+express = require("express");
+pg = require("pg");
+multer = require("multer");
 const upload = multer();
 
 // Postgres connection pool
 const pool = new pg.Pool({
     user: 'postgres',
-    host: 'localhost',
+    host: 'postgres',
     database: 'postgres',
     password: 'postgres',
     port: 5432,
   })
 
 const app = express();
-const PORT = 3000;
+const PORT = 80;
 
 app.use(express.json());
 

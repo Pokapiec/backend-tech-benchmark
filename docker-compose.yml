@@ -16,7 +16,7 @@ services:
 
   api:
     build: 
-      context: ./go-gin
+      context: ./nodejs-express
       dockerfile: ./Dockerfile
     container_name: api
     restart: always
