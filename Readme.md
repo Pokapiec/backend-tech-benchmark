@@ -10,7 +10,7 @@ Testowane jezyki programowania
 - [x] Golang - Gin
 - [x] PHP - Laravel
 - [x] Python - FastApi
-- [ ] Rust - Actix web (If there will be time)
+- [x] Rust - Axum (If there will be time)
 - [ ] Ruby - Rails (If there will be time)
 - [ ] Elixir - Phoenix (If there will be time)
 
