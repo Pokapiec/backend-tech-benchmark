@@ -2,10 +2,10 @@ node_modules/
 volumes/*
 
 # Added by cargo
-
+target/*
 /target
 .mvn
-rust-actixweb/target
+rust-axum/target
 java-spring/target
 c#-dotnet/bin
 c#-dotnet/obj
