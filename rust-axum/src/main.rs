@@ -53,7 +53,7 @@ async fn main() {
     // .layer(cors);
 
     println!("🚀 Server started successfully");
-    axum::Server::bind(&"127.0.0.1:8000".parse().unwrap())
+    axum::Server::bind(&"0.0.0.0:80".parse().unwrap())
         .serve(app.into_make_service())
         .await
         .unwrap();
