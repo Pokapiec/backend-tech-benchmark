@@ -66,8 +66,7 @@ if (cluster.isMaster) {
 
     app.post("/file-upload/", upload.any(), (req, res) => {
         const file = req.files[0]
-        file.buffer.toString();
-        res.send("File upload successful!");
+        res.send(file.buffer.toString());
     });
 
 

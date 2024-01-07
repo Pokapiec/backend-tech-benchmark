@@ -22,29 +22,37 @@ public class SimpleApiRestController {
 
     @GetMapping("/string/")
     public String getText() {
-        return "This is a simple text response.";
+        return "Hello world!";
     }
 
     @GetMapping("/simple-json/")
     public Map<String, Object> getNestedJson() {
         Map<String, Object> data = new HashMap<>();
-        data.put("level1", "value1");
+        data.put("key1", "value1");
+        data.put("key2", "value2");
+        data.put("key3", "value3");
 
-        Map<String, Object> level2 = new HashMap<>();
-        level2.put("level2", "value2");
+        Map<String, Object> nestedData = new HashMap<>();
+        nestedData.put("kn1", "value_nest_1");
 
-        Map<String, Object> level3 = new HashMap<>();
-        level3.put("level3", "value3");
+        Map<String, Object> nestedNestedData = new HashMap<>();
+        nestedNestedData.put("key", "value");
 
-        level2.put("nestedLevel3", level3);
-        data.put("nestedLevel2", level2);
+        nestedData.put("knn2", nestedNestedData);
+
+        data.put("key_nest", nestedData);
 
         return data;
     }
 
     @GetMapping("/query-params/")
-    public String getQueryParams(@RequestParam("param1") String param1, @RequestParam("param2") String param2) {
-        return "Param1: " + param1 + ", Param2: " + param2;
+    public Map<String, String> getQueryParams(@RequestParam("param1") String param1,
+            @RequestParam("param2") String param2) {
+
+        Map<String, String> data = new HashMap<>();
+        data.put("param1", param1);
+        data.put("param2", param2);
+        return data;
     }
 
     @GetMapping("/sql-select/")
@@ -57,7 +65,7 @@ public class SimpleApiRestController {
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
         byte[] fileBytes = file.getBytes();
         String fileContent = new String(fileBytes);
-        return ResponseEntity.ok("File content:\n" + fileContent);
+        return ResponseEntity.ok(fileContent);
     }
 
 }

@@ -1,5 +1,5 @@
-use std::sync::Arc;
-use tokio::sync::Mutex;
+// use std::sync::Arc;
+// use tokio::sync::Mutex;
 
 // use axum::http::{
 //     header::{ACCEPT, AUTHORIZATION, CONTENT_TYPE},
@@ -8,12 +8,13 @@ use tokio::sync::Mutex;
 
 use axum::{
     extract::{Multipart, Query, State},
-    http::StatusCode,
+    // http::StatusCode,
     response::IntoResponse,
     routing::{get, post},
-    Json, Router,
+    Json,
+    Router,
 };
-use std::env;
+// use std::env;
 
 use serde::{Deserialize, Serialize};
 // use tower_http::cors::CorsLayer;
@@ -22,8 +23,8 @@ use sqlx::FromRow;
 
 #[derive(Debug, Deserialize, Default)]
 pub struct QueryOptions {
-    pub page: Option<usize>,
-    pub limit: Option<usize>,
+    pub param1: Option<String>,
+    pub param2: Option<String>,
 }
 
 #[tokio::main]
@@ -35,7 +36,8 @@ async fn main() {
     //     .allow_headers([AUTHORIZATION, ACCEPT, CONTENT_TYPE]);
 
     dotenv::dotenv().ok();
-    let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
+    // let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
+    let database_url = "postgres://postgres:postgres@postgres:5432/postgres".to_string();
 
     let pool = PgPoolOptions::new()
         .max_connections(5)
@@ -48,7 +50,7 @@ async fn main() {
         .route("/simple-json/", get(get_simple_json_response))
         .route("/query-params/", get(get_merged_query_params_response))
         .route("/sql-select/", get(get_sql_response))
-        .route("/file-upload/", get(upload_file_and_return_read_content))
+        .route("/file-upload/", post(upload_file_and_return_read_content))
         .with_state(pool);
     // .layer(cors);
 
@@ -75,11 +77,11 @@ pub async fn get_simple_json_response() -> impl IntoResponse {
 }
 
 pub async fn get_merged_query_params_response(
-    Query(QueryOptions { page, limit }): Query<QueryOptions>,
+    Query(QueryOptions { param1, param2 }): Query<QueryOptions>,
 ) -> impl IntoResponse {
     let json_response = serde_json::json!({
-        "page": page,
-        "limit": limit,
+        "param1": param1,
+        "param2": param2,
     });
 
     Json(json_response)
@@ -101,8 +103,7 @@ pub struct SQLRecord {
 }
 
 pub async fn get_sql_response(State(pool): State<sqlx::PgPool>) -> impl IntoResponse {
-    let data = sqlx::query_as!(
-        SQLRecord,
+    let data = sqlx::query_as::<_, SQLRecord>(
         "SELECT id, firstname, lastname, age, salary::varchar, birthdate::varchar, isactive, email, phonenumber, address FROM public.exampletable ORDER BY id ASC",
     ) // .bind(1)
     .fetch_all(&pool)

@@ -28,7 +28,7 @@ type DBRecord struct {
 }
 
 const (
-	host     = "postgres"
+	host     = "10.101.179.3"
 	port     = 5432
 	user     = "postgres"
 	password = "postgres"
@@ -76,7 +76,10 @@ func main() {
 		param1 := c.Query("param1")
 		param2 := c.Query("param2")
 
-		c.String(200, fmt.Sprintf("%s, %s", param1, param2))
+		c.JSON(200, gin.H{
+			"param1": param1,
+			"param2": param2,
+		})
 	})
 
 	r.GET("/sql-select/", func(c *gin.Context) {

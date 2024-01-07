@@ -19,22 +19,26 @@ public class BasicController : ControllerBase
     [HttpGet]
     public IActionResult GetString()
     {
-        return Ok("This is a simple text response.");
+        return Ok("Hello world!");
     }
 
     [Route("simple-json")]
     [HttpGet]
     public IActionResult GetNestedJson()
     {
-        var nestedJson = new
+        var nestedJson = new Dictionary<string, object>
         {
-            level1 = "value1",
-            nested_level2 = new
-            {
-                level2 = "value2",
-                nested_level3 = new
+            {"key1", "value1"},
+            {"key2", "value2"},
+            {"key3", "value3"},
+            {"key_nest", new Dictionary<string, object>
                 {
-                    level3 = "value3"
+                    {"kn1", "value_nest_1"},
+                    {"knn2", new Dictionary<string, object>
+                        {
+                            {"key", "value"}
+                        }
+                    }
                 }
             }
         };
@@ -98,7 +102,7 @@ public class BasicController : ControllerBase
             using (var streamReader = new StreamReader(file.OpenReadStream()))
             {
                 var fileContent = await streamReader.ReadToEndAsync();
-                return Ok($"Uploaded file content:\n{fileContent}");
+                return Ok(fileContent);
             }
         }
         else

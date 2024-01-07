@@ -16,7 +16,7 @@ services:
 
   api:
     build: 
-      context: ./nodejs-express
+      context: ./c#-dotnet
       dockerfile: ./Dockerfile
     container_name: api
     restart: always

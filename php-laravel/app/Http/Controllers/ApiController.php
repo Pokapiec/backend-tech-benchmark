@@ -9,15 +9,19 @@ class ApiController extends Controller
 {
     public function getString()
     {
-        return 'Simple Text Content';
+        return 'Hello World!';
     }
 
     public function getSimpleJson()
     {
         $data = [
-            'level1' => [
-                'level2' => [
-                    'level3' => 'Nested JSON Example',
+            'key1' => 'value1',
+            'key2' => 'value2',
+            'key3' => 'value3',
+            'key_nest' => [
+                'kn1' => 'value_nest_1',
+                'knn2' => [
+                    'key' => 'value',
                 ],
             ],
         ];

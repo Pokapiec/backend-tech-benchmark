@@ -1,11 +1,30 @@
-# Use an official OpenJDK runtime as a parent image
-FROM eclipse-temurin:17-jdk-alpine
+# Stage 1: Build the application using Maven
+FROM maven:3.8.4-openjdk-17 as builder
 
-# Copy the compiled Spring Boot JAR file into the container
-COPY target/*.jar app.jar
+# Set the working directory in the Docker image
+WORKDIR /app
 
-# Expose the port that your Spring Boot application will listen on
+# Copy the Maven project files and download dependencies to take advantage of cached layers
+COPY pom.xml .
+RUN mvn dependency:go-offline
+
+# Copy the rest of your project's files
+COPY src ./src
+
+# Package the application
+RUN mvn package -DskipTests
+
+# Stage 2: Create the runtime image
+FROM openjdk:17-slim
+
+# Set the working directory in the Docker image
+WORKDIR /app
+
+# Copy the built artifact from the builder stage
+COPY --from=builder /app/target/*.jar app.jar
+
+# Expose the port the app runs on
 EXPOSE 80
 
-# Start the Spring Boot application
-CMD ["java", "-jar", "app.jar"]
+# Run the jar file 
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]

@@ -138,6 +138,22 @@ dependencies = [
 ]
 
 [[package]]
+name = "axum_app"
+version = "0.1.0"
+dependencies = [
+ "axum",
+ "bigdecimal",
+ "chrono",
+ "dotenv",
+ "serde",
+ "serde_json",
+ "sqlx",
+ "tokio",
+ "tower-http",
+ "uuid",
+]
+
+[[package]]
 name = "backtrace"
 version = "0.3.69"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1177,22 +1193,6 @@ dependencies = [
  "spki",
  "subtle",
  "zeroize",
-]
-
-[[package]]
-name = "rust"
-version = "0.1.0"
-dependencies = [
- "axum",
- "bigdecimal",
- "chrono",
- "dotenv",
- "serde",
- "serde_json",
- "sqlx",
- "tokio",
- "tower-http",
- "uuid",
 ]
 
 [[package]]
