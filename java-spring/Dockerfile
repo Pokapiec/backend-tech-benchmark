@@ -1,30 +1,23 @@
-# Stage 1: Build the application using Maven
-FROM maven:3.8.4-openjdk-17 as builder
+# Custom Java runtime using jlink in a multi-stage container build
+FROM eclipse-temurin:17 as jre-build
 
-# Set the working directory in the Docker image
-WORKDIR /app
+# Create a custom Java runtime
+RUN $JAVA_HOME/bin/jlink \
+    --add-modules jdk.unsupported,java.base,java.sql,java.naming,java.desktop,java.management,java.security.jgss,java.instrument \
+    --strip-debug \
+    --no-man-pages \
+    --no-header-files \
+    --compress=2 \
+    --output /javaruntime
 
-# Copy the Maven project files and download dependencies to take advantage of cached layers
-COPY pom.xml .
-RUN mvn dependency:go-offline
+# Define your base image
+FROM debian:stretch-slim
+ENV JAVA_HOME=/opt/java/openjdk
+ENV PATH "${JAVA_HOME}/bin:${PATH}"
+COPY --from=jre-build /javaruntime $JAVA_HOME
 
-# Copy the rest of your project's files
-COPY src ./src
-
-# Package the application
-RUN mvn package -DskipTests
-
-# Stage 2: Create the runtime image
-FROM openjdk:17-slim
-
-# Set the working directory in the Docker image
-WORKDIR /app
-
-# Copy the built artifact from the builder stage
-COPY --from=builder /app/target/*.jar app.jar
-
-# Expose the port the app runs on
+RUN mkdir /opt/app
+COPY target/*.jar /opt/app/app.jar
 EXPOSE 80
 
-# Run the jar file 
-ENTRYPOINT ["java", "-jar", "/app/app.jar"]
+CMD ["java", "-jar", "/opt/app/app.jar"]

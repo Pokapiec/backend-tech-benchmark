@@ -36,7 +36,7 @@ RUN chmod -R 777 storage bootstrap/cache
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Install Laravel dependencies
-RUN composer install
+RUN composer install --no-ansi --no-dev --no-interaction --no-progress --no-scripts --optimize-autoloader
 
 # Start the Apache web server
 CMD ["apache2-foreground"]

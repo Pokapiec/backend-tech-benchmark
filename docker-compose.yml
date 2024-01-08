@@ -16,7 +16,7 @@ services:
 
   api:
     build: 
-      context: ./c#-dotnet
+      context: ./python-fastapi
       dockerfile: ./Dockerfile
     container_name: api
     restart: always
