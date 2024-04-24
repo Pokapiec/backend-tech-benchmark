@@ -51,8 +51,8 @@ local LastBoundary = "--" .. Boundary .. "--"
 local CRLF = "\r\n"
 local FileBody = read_file("test/fixtures/files/test.jpg")
 local Filename = "test.jpg"
-local ContentDisposition = 'Content-Disposition: form-data; name="files[]"; filename="' .. Filename .. '"'
-local ContentType = 'Content-Type: image/jpeg'
+local ContentDisposition = 'Content-Disposition: form-data; name="file"; filename="' .. Filename .. '"'
+local ContentType = 'Content-Type: text/plain'
 
 wrk.method = "POST"
 wrk.headers["Content-Type"] = "multipart/form-data; boundary=" .. Boundary
