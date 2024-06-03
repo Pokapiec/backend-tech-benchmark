@@ -5,7 +5,7 @@ app = FastAPI()
 
 
 # Initialize the database connection
-database = Database("postgresql://postgres:postgres@postgres/postgres")
+database = Database("postgresql://postgres:postgres@10.101.179.3:5432/postgres")
 
 
 @app.on_event("startup")

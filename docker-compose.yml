@@ -16,7 +16,7 @@ services:
 
   api:
     build: 
-      context: ./python-fastapi
+      context: ./elixir_cowboy
       dockerfile: ./Dockerfile
     container_name: api
     restart: always

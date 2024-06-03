@@ -11,8 +11,8 @@ Testowane jezyki programowania
 - [x] PHP - Laravel
 - [x] Python - FastApi
 - [x] Rust - Axum
+- [x] Elixir - Cowboy
 - [ ] Ruby - Rails (If there will be time)
-- [ ] Elixir - Phoenix (If there will be time)
 
 Endpoints to test:
 

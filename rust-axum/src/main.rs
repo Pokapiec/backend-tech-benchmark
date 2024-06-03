@@ -37,7 +37,7 @@ async fn main() {
 
     dotenv::dotenv().ok();
     // let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
-    let database_url = "postgres://postgres:postgres@postgres:5432/postgres".to_string();
+    let database_url = "postgres://postgres:postgres@10.101.179.3:5432/postgres".to_string();
 
     let pool = PgPoolOptions::new()
         .max_connections(5)

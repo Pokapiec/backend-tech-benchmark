@@ -9,7 +9,7 @@ const PORT = 80;
 // Postgres connection pool
 const pool = new pg.Pool({
     user: 'postgres',
-    host: 'postgres',
+    host: '10.101.179.3',
     database: 'postgres',
     password: 'postgres',
     port: 5432,
