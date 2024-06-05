@@ -33,7 +33,19 @@ defmodule ElixirCowboy.Router do
 
   get "/sql-select/" do
     result = ElixirCowboy.DB.query("SELECT * FROM public.exampletable ORDER BY id ASC")
-    send_resp(conn, 200, Jason.encode!(result))
+    data = Enum.map(result, fn x -> %{
+      id: Enum.at(x, 0),
+      firstname: Enum.at(x, 1),
+      lastname: Enum.at(x, 2),
+      age: Enum.at(x, 3),
+      salary: Enum.at(x, 4),
+      birtdate: Enum.at(x, 5),
+      isactive: Enum.at(x, 6),
+      email: Enum.at(x, 7),
+      phonenumber: Enum.at(x, 8),
+      adress: Enum.at(x, 9),
+    } end)
+    send_resp(conn, 200, Jason.encode!(data))
   end
 
   match _ do
